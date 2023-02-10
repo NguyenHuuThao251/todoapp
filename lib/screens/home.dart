@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/constants/colors.dart';
 import 'package:todoapp/model/todo.dart';
+import 'package:todoapp/screens/app_drawer.dart';
 import 'package:todoapp/widget/todo_item.dart';
 
 class Home extends StatefulWidget {
@@ -13,10 +14,13 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final todoList = ToDo.todoList();
   final todoController = TextEditingController();
+  var _scaffoldKey = new GlobalKey<ScaffoldState>();
   List<ToDo> foundToDo = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: new AppDrawer(),
       backgroundColor: tdbGColor,
       appBar: buildAppBar(),
       body: Stack(
@@ -168,13 +172,19 @@ class _HomeState extends State<Home> {
 
   AppBar buildAppBar() {
     return AppBar(
+      automaticallyImplyLeading: false,
       backgroundColor: tdbGColor,
       elevation: 0,
       title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Icon(
-          Icons.menu,
-          color: tdBlack,
-          size: 30,
+        IconButton(
+            onPressed: () {
+              _scaffoldKey.currentState?.openDrawer();
+            },
+            icon: Icon(
+              Icons.menu,
+              color: tdBlack,
+              size: 30,
+            ),
         ),
         Container(
           height: 40,
